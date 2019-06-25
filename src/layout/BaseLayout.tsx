@@ -1,30 +1,42 @@
-import React, {FC, useState} from 'react'
-import {Layout, Menu, Icon, Card} from 'antd'
-import routes from '../router/router'
+import React, { FC, useState, useMemo, useCallback } from 'react'
+import { Layout, Menu, Icon, Card, Breadcrumb } from 'antd'
+import routes, { mapObj } from '../router/router'
 import {
   Link,
   Switch,
   withRouter,
   RouteComponentProps,
-  Route,
+  Route
 } from 'react-router-dom'
-import {useTransition, animated} from 'react-spring'
+import { useTransition, animated } from 'react-spring'
 import './index.less'
-import {generateRoute} from '../util'
+import { generateRoute } from '../util'
 import IconFont from '../components/iconFont/IconFont'
-const {Header, Content, Sider} = Layout
-const {SubMenu, Item} = Menu
+const { Header, Content, Sider } = Layout
+const { SubMenu, Item } = Menu
 interface BaseLayoutProp {}
+
 const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
-  history: {location},
+  history: { location }
 }) => {
   const [collapsed, setCollapsed] = useState<boolean>(false)
 
-  // const transitions = useTransition(location, location => location.pathname, {
-  //   from: {opacity: 0, transform: 'translate3d(0%,0,0)'},
-  //   enter: {opacity: 1, transform: 'translate3d(0,0,0)'},
-  //   leave: {opacity: 0, transform: 'translate3d(-50%,0,0)'},
-  // })
+  const pathSnippets = location.pathname.split('/').filter(i => i)
+
+  const extraBreadcrumbItemsMemo = useMemo(
+    () =>
+      pathSnippets.map((_, index) => {
+        const url = `${pathSnippets.slice(0, index + 1).join('/')}`
+        console.log(location.pathname)
+
+        return (
+          <Breadcrumb.Item key={url}>
+            <Link to={url}>{mapObj[location.pathname]}</Link>
+          </Breadcrumb.Item>
+        )
+      }),
+    [location.pathname]
+  )
 
   function toggle() {
     setCollapsed(!collapsed)
@@ -38,7 +50,8 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
         collapsed={collapsed}
         trigger={null}
         width={256}
-        className="sider">
+        className="sider"
+      >
         <div>title</div>
         <Menu mode="inline" className={'menuList'} theme="dark">
           {routes.map(route =>
@@ -49,7 +62,8 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
                   route.redirect ? (
                     <Link
                       to={route.redirect}
-                      style={{color: 'rgba(255,255,255,.65)'}}>
+                      style={{ color: 'rgba(255,255,255,.65)' }}
+                    >
                       <span>
                         {route.icon && <Icon type={route.icon} />}
                         {route.iconFont && <IconFont type={route.iconFont} />}
@@ -63,7 +77,8 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
                       <span>{route.name}</span>
                     </span>
                   )
-                }>
+                }
+              >
                 {route.children.map(
                   child =>
                     !child.show && (
@@ -88,7 +103,7 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
         </Menu>
       </Sider>
       <Layout>
-        <Header style={{background: '#fff', padding: 0}}>
+        <Header style={{ background: '#fff', padding: 0 }}>
           <Icon
             className={'tigger'}
             type={collapsed ? 'menu-unfold' : 'menu-fold'}
@@ -96,16 +111,16 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
           />
         </Header>
         <Content className="content">
-            <Switch>
-              {flatRoute.map(route => (
-                <Route
-                  key={route.name}
-                  path={route.path}
-                  component={route.component}
-                />
-              ))}
-            </Switch>
-
+          <Breadcrumb>{extraBreadcrumbItemsMemo}</Breadcrumb>
+          <Switch>
+            {flatRoute.map(route => (
+              <Route
+                key={route.name}
+                path={route.path}
+                component={route.component}
+              />
+            ))}
+          </Switch>
 
           {/* <Route
             render={({location}) => {

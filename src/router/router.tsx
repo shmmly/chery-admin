@@ -25,9 +25,9 @@ import Oos from '../pages/system/oos/Oos'
 import Shop from '../pages/config/shop/Shop'
 import Carriage from '../pages/config/carriage/Carriage'
 import Wechat from '../pages/config/wechat/Wechat'
-import {RouteComponentProps} from 'react-router-dom'
-import Orderconfig from '../pages/config/order/Orderconfig';
-import Order from '../pages/shop/order/Order';
+import { RouteComponentProps } from 'react-router-dom'
+import Orderconfig from '../pages/config/order/Orderconfig'
+import Order from '../pages/shop/order/Order'
 
 /*
  * @Author: 流年的樱花逝
@@ -72,65 +72,65 @@ const routes: RouteConfig[] = [
     icon: 'dashboard',
     children: [],
     meta: {
-      role: [],
+      role: []
     },
-    component: Dash,
+    component: Dash
   },
   {
     name: '用户管理',
     path: '/user',
-    redirect: '/user/user',
+    redirect: '/user/member',
     icon: 'user',
     children: [
       {
         name: '会员管理',
         path: '/user/member',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Member,
+        component: Member
       },
       {
         name: '收货地址',
         path: '/user/address',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Address,
+        component: Address
       },
       {
         name: '会员收藏',
         path: '/user/collect',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Collect,
+        component: Collect
       },
       {
         name: '会员足迹',
         path: '/user/footmark',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Footmark,
+        component: Footmark
       },
       {
         name: '搜索历史',
         path: '/user/history',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: History,
+        component: History
       },
       {
         name: '意见反馈',
         path: '/user/feedback',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Feedback,
-      },
-    ],
+        component: Feedback
+      }
+    ]
   },
   {
     name: '商场管理',
@@ -142,43 +142,43 @@ const routes: RouteConfig[] = [
         name: '品牌制造商',
         path: '/shop/brand',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Brand,
+        component: Brand
       },
       {
         name: '商品类目',
         path: '/shop/category',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Category,
+        component: Category
       },
       {
         name: '订单管理',
         path: '/shop/order',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Order,
+        component: Order
       },
       {
         name: '通用问题',
         path: '/shop/issue',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Issue,
+        component: Issue
       },
       {
         name: '关键词',
         path: '/shop/keyboard',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Keyboard,
-      },
-    ],
+        component: Keyboard
+      }
+    ]
   },
   {
     name: '商品管理',
@@ -190,27 +190,27 @@ const routes: RouteConfig[] = [
         name: '商品列表',
         path: '/good/list',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: GoodList,
+        component: GoodList
       },
       {
         name: '商品上架',
         path: '/good/putaway',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Putaway,
+        component: Putaway
       },
       {
         name: '商品评论',
         path: '/good/comment',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Comment,
-      },
-    ],
+        component: Comment
+      }
+    ]
   },
   {
     name: '推广管理',
@@ -222,71 +222,71 @@ const routes: RouteConfig[] = [
         name: '广告管理',
         path: '/popularize/advertising',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Advertising,
+        component: Advertising
       },
       {
         name: '优惠券管理',
         path: '/popularize/coupon',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Coupon,
+        component: Coupon
       },
       {
         name: '优惠券详情',
         path: '/popularize/coupon/:id',
         show: false,
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: CouponDetail,
+        component: CouponDetail
       },
       {
         name: '专题管理',
         path: '/popularize/topic',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Topic,
+        component: Topic
       },
 
       {
         name: '专题新建',
         path: '/popularize/topic/create',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
         show: false,
-        component: TopicDetail,
+        component: TopicDetail
       },
       {
         name: '专题编辑',
         path: '/popularize/topic/update/:id',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
         show: false,
-        component: TopicDetail,
+        component: TopicDetail
       },
       {
         name: '团购规则',
         path: '/popularize/grouprole',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Grouprole,
+        component: Grouprole
       },
       {
         name: '团购活动',
         path: '/popularize/groupactivity',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Groupactivity,
-      },
-    ],
+        component: Groupactivity
+      }
+    ]
   },
   {
     name: '系统管理',
@@ -298,27 +298,27 @@ const routes: RouteConfig[] = [
         name: '管理员',
         path: '/system/admin',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Admin,
+        component: Admin
       },
       {
         name: '操作日志',
         path: '/system/log',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Log,
+        component: Log
       },
       {
         name: '对象存储',
         path: '/system/oos',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Oos,
-      },
-    ],
+        component: Oos
+      }
+    ]
   },
   {
     name: '配置管理',
@@ -330,36 +330,64 @@ const routes: RouteConfig[] = [
         name: '商场配置',
         path: '/config/shop',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Shop,
+        component: Shop
       },
       {
         name: '运费配置',
         path: '/config/carriage',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Carriage,
+        component: Carriage
       },
       {
         name: '订单配置',
         path: '/config/order',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Orderconfig,
+        component: Orderconfig
       },
       {
         name: '小程序配置',
         path: '/config/wechat',
         meta: {
-          role: ['admin'],
+          role: ['admin']
         },
-        component: Wechat,
-      },
-    ],
-  },
+        component: Wechat
+      }
+    ]
+  }
 ]
 
+/* 简单的映射 */
+type MapRoute = {
+  [key: string]: string
+}
+
+/**
+ *  /usr/member ===> 用户管理/会员管理
+ *
+ *  {'/user':'用户管理,'/member':'会员管理'}
+ *
+ */
+function matchRoute() {
+  let mapObj: MapRoute = {}
+  routes.map(route => {
+    if (route.children && route.children.length > 0) {
+      route.children.map(child => {
+        mapObj[child.path] = child.name
+      })
+    } else {
+      mapObj[route.path] = route.name
+    }
+  })
+  console.log(mapObj)
+
+  return mapObj
+}
+
+export const mapObj = matchRoute()
 export default routes
