@@ -1,4 +1,9 @@
-import React, {FC, useRef} from 'react'
+// Original: https://github.com/chenglou/react-motion/tree/master/demos/demo8-draggable-list
+
+import React, {useRef, FC} from 'react'
+import clamp from 'lodash-es/clamp'
+import swap from 'lodash-move'
+import {useGesture} from 'react-use-gesture'
 import {
   useSprings,
   animated,
@@ -7,64 +12,52 @@ import {
   SetUpdateCallbackFn,
   ForwardedProps,
 } from 'react-spring'
-import {useGesture} from 'react-use-gesture'
-import clamp from 'lodash-es/clamp'
-import swap from 'lodash-move'
 import './index.less'
-interface DraggableListProp {
+
+interface DraggableListProps {
   items: any[]
 }
 
-const fn = (
-  order: any[],
-  down: boolean,
-  originalIndex: number,
-  curIndex: number,
-  x: number
-) => (index: number) =>
+// Returns fitting styles for dragged/idle items
+// @ts-ignore
+const fn = (order, down, originalIndex, curIndex, y) => index =>
   down && index === originalIndex
     ? {
-        x: curIndex * 100 + x,
+        y: curIndex * 100 + y,
         scale: 1.1,
         zIndex: '1',
         shadow: 15,
-        immediate: (n: string) => n === 'x' || n === 'zIndex',
+        immediate: (n: string) => n === 'y' || n === 'zIndex',
       }
     : {
-        x: order.indexOf(index),
+        y: order.indexOf(index) * 100,
         scale: 1,
         zIndex: '0',
         shadow: 1,
         immediate: false,
       }
 
-const DraggableList: FC<DraggableListProp> = ({items}) => {
-  const order = useRef(items.map((_, index) => index))
+const DraggableList: FC<DraggableListProps> = ({items}) => {
+  const order = useRef(items.map((_, index) => index)) // Store indicies as a local ref, this represents the item order
   //@ts-ignore
   const [springs, setSprings] = useSprings(items.length, fn(order.current)) as [
     AnimatedValue<ForwardedProps<any>>[],
     SetUpdateCallbackFn<any>
-  ]
-  // useGesture has two args handler and config
-  const bind = useGesture(({args: [originalIndex], down, delta: [x]}) => {
-    // 获取当前的移动的dom在原始dom中的位置
+  ] // Create springs, each corresponds to an item, controlling its transform, scale, etc.
+  const bind = useGesture(({args: [originalIndex], down, delta: [, y]}) => {
     const curIndex = order.current.indexOf(originalIndex)
-    // 这个含义不是很懂 这个函数是求三者中 大小处于中间位置的值
     const curRow = clamp(
-      Math.round((curIndex * 100 + x) / 100),
+      Math.round((curIndex * 100 + y) / 100),
       0,
       items.length - 1
     )
-    // 替换 将curIndex 移动到curRow的位置
     const newOrder = swap(order.current, curIndex, curRow)
-    // // @ts-ignore
-    // 这里一开始理解补了 后来查看文档发现，在set中，会是一个方法，这个方法会用当前的index作为参数 传递给你
-    setSprings(fn(newOrder, down, originalIndex, curIndex, x))
+    setSprings(fn(newOrder, down, originalIndex, curIndex, y)) // Feed springs new style data, they'll animate the view without causing a single render
     if (!down) order.current = newOrder
   })
   return (
-    <div className="dragcontent">
-      {springs.map(({zIndex, shadow, x, scale, y}, i: number) => (
+    <div className="dragcontent" >
+      {springs.map(({zIndex, shadow, y, scale}, i) => (
         <animated.div
           {...bind(i)}
           key={i}
@@ -74,8 +67,8 @@ const DraggableList: FC<DraggableListProp> = ({items}) => {
               (s: number) => `rgba(0, 0, 0, 0.15) 0px ${s}px ${2 * s}px 0px`
             ),
             transform: interpolate(
-              [x, scale],
-              (x, s) => `translate3d(${x}px,0,0) scale(${s})`
+              [y, scale],
+              (y, s) => `translate3d(0,${y}px,0) scale(${s})`
             ),
           }}
           children={items[i]}
