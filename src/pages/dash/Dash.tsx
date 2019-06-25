@@ -13,16 +13,7 @@ const Dash: FC<DashProp> = () => {
   })
   return (
     <div>
-      <DraggableList
-        items={[
-          <div style={{width: 100, height: 10}}>1</div>,
-          <div style={{width: 100, height: 10}}>1</div>,
-          <div style={{width: 100, height: 10}}>1</div>,
-          <div style={{width: 100, height: 10}}>1</div>,
-        ]}
-      />
-
-      <animated.div style={props}>我是spring 我开始滚动啦🔥</animated.div>
+        
     </div>
   )
 }
