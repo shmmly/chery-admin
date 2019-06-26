@@ -32,8 +32,8 @@ import Order from '../pages/shop/order/Order'
 /*
  * @Author: 流年的樱花逝
  * @Date: 2019-06-20 15:05:23
- * @Last Modified by: 流年的樱花逝
- * @Last Modified time: 2019-06-20 17:08:55
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-06-26 16:16:58
  * @comment 这个文件包含了 整个系统的路由定义
  * @todo
  *  □ 直接使用router生成对应的文件夹，并能够watch router文件内容的变化 直接生成对应的文件夹
@@ -385,7 +385,6 @@ function matchRoute() {
       mapObj[route.path] = route.name
     }
   })
-  console.log(mapObj)
 
   return mapObj
 }

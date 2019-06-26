@@ -6,6 +6,7 @@ import GlobalTable from '../../../components/globalTable/GlobalTable'
 import { ColumnProps } from 'antd/lib/table'
 import { MemberInfo } from '../../../api/index'
 import { Tag, Input, Popconfirm, Divider } from 'antd'
+import { html2Excel } from '../../../util/html2excel'
 interface MemberProp {}
 const Member: FC<MemberProp> = () => {
   const [visible, setVisible] = useState<boolean>(false)
@@ -57,9 +58,7 @@ const Member: FC<MemberProp> = () => {
       title: '操作',
       render: (_, row) => (
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <a  onClick={() => onEdit(row)}>
-            编辑
-          </a>
+          <a onClick={() => onEdit(row)}>编辑</a>
           <Divider type="vertical" />
           <Popconfirm
             placement="top"
@@ -104,12 +103,19 @@ const Member: FC<MemberProp> = () => {
     setTitle('编辑会员管理')
   }
 
-  function onOk() {
+  function onOk(args: any) {
     setVisible(false)
   }
 
   function onCancel() {
     setVisible(false)
+  }
+  function onExport() {
+    html2Excel<MemberInfo>({
+      antdColumns: columns,
+      antdDatasource: members.list && members.list,
+      filename: '会员管理'
+    })
   }
 
   return (
@@ -124,6 +130,7 @@ const Member: FC<MemberProp> = () => {
         onCreate={onCreate}
         formConfig={formConfig}
         onOk={onOk}
+        onExport={onExport}
         onCancel={onCancel}
       />
     </div>

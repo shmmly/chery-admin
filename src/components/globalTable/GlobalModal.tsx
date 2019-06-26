@@ -5,7 +5,7 @@ import { FormComponentProps } from 'antd/lib/form'
 interface GlobalModalProps {
   formConfig: FormConfig[]
   visible: boolean
-  onOk: () => void
+  onOk: (args: any) => void
   onCancel: () => void
   title: string
 }
@@ -20,8 +20,7 @@ const GlobalModal: FC<GlobalModalProps & FormComponentProps> = ({
   function handleOk() {
     validateFields((error, value) => {
       if (!error) {
-        console.log(value)
-        onOk()
+        onOk(value)
       }
     })
   }
@@ -39,7 +38,7 @@ const GlobalModal: FC<GlobalModalProps & FormComponentProps> = ({
       sm: { span: 16 }
     }
   }
-  console.log(formConfig)
+
 
   return (
     <Modal

@@ -49,7 +49,7 @@ interface GlobalTableProp {
   onCreate?: () => void
 
   // modal 确认的回调
-  onOk?: () => void
+  onOk?: (args:any) => void
   // modal取消的回调
   onCancel?: () => void
   // 导出功能
@@ -110,7 +110,7 @@ const GlobalTable: FC<GlobalTableProp> = ({
     fetchFun && fetchFun(1, 10, value)
   }
 
- console.log(title);
+
  
   return (
     <div className={styles.container}>
@@ -122,7 +122,7 @@ const GlobalTable: FC<GlobalTableProp> = ({
           </Button>
         )}
         {hasExport && (
-          <Button type="primary">
+          <Button type="primary" onClick={onExport}>
             {exportText}
           </Button>
         )}
