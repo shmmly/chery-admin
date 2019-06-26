@@ -8,24 +8,32 @@ interface DashProp {}
 const Dash: FC<DashProp> = () => {
   return (
     <div>
-      <ContainerCard>
-        <Row gutter={12}>
-          <Col span={6}>
-
+      <Row gutter={12}>
+        <Col span={6}>
+          <ContainerCard cls='bg-1'>
             <h3>数据展示</h3>
             <p>上个月数据展示</p>
-
-            
-
-
-
-          </Col>
-          <Col span={18}></Col>
-        </Row>
-
-
-        
-     </ContainerCard>
+          </ContainerCard>
+        </Col>
+        <Col span={6}>
+          <ContainerCard cls='bg-2'>
+            <h3>数据展示</h3>
+            <p>上个月数据展示</p>
+          </ContainerCard>
+        </Col>
+        <Col span={6}>
+          <ContainerCard cls='bg-3'>
+            <h3>数据展示</h3>
+            <p>上个月数据展示</p>
+          </ContainerCard>
+        </Col>
+        <Col span={6}>
+          <ContainerCard cls='bg-3'>
+            <h3>数据展示</h3>
+            <p>上个月数据展示</p>
+          </ContainerCard>
+        </Col>
+      </Row>
     </div>
   )
 }

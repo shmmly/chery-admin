@@ -28,7 +28,6 @@ import Wechat from '../pages/config/wechat/Wechat'
 import { RouteComponentProps } from 'react-router-dom'
 import Orderconfig from '../pages/config/order/Orderconfig'
 import Order from '../pages/shop/order/Order'
-import { EPERM } from 'constants'
 
 /*
  * @Author: 流年的樱花逝
@@ -390,7 +389,10 @@ function matchRoute() {
 
   return mapObj
 }
-
+/**
+ *  返回subMenu的路由和redicture路由的一对一关系
+ *  返回subMenu的名称集合，用在只显示一个主菜单的方法中
+ */
 function redirectMap() {
   let redictMap: MapRoute = {}
   let pathName: string[] = []

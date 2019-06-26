@@ -1,4 +1,4 @@
-import React, {FC} from 'react'
+
 import {Icon} from 'antd'
 
 // 这是阿里的iconFont图标图

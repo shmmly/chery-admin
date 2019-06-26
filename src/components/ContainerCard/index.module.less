@@ -1,3 +1,6 @@
+// 这里出现样式无法覆盖background的问题
+// 应该是最终生成的style表中，backgrond还是排在后面 所有一直是白色导致 自定义的颜色失效
+// 所以这里删除background的定义
 .container {
   padding: 12px;
   position: relative;
@@ -7,21 +10,8 @@
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   box-shadow: 2px 4px 6px rgba(0, 21, 41, 0.35);
-  background: white;
+  // background: white;
   &:hover {
     transform: scale(1.004);
-  }
-  .header {
-    overflow: hidden;
-    // height: 40px;
-  }
-  .content {
-    overflow: hidden;
-    height: 80%;
-  }
-
-  .footer {
-    display: flex;
-    max-height: 20%;
   }
 }

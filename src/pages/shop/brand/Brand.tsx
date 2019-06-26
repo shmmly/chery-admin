@@ -1,4 +1,4 @@
-import React, {FC} from 'react'
+import React, {FC, useState} from 'react'
 import GlobalTable from '../../../components/globalTable/GlobalTable'
 import {BrandInfo} from '../../../api'
 import {ColumnProps} from 'antd/lib/table'
@@ -6,6 +6,7 @@ import {Tag, Button, Popconfirm} from 'antd'
 import {brands} from '../../../mock/index'
 interface BrandProp {}
 const Brand: FC<BrandProp> = () => {
+  const [visible, setVisible] = useState<boolean>(false)
   const columns: ColumnProps<BrandInfo>[] = [
     {
       title: '品牌商id',
@@ -45,12 +46,30 @@ const Brand: FC<BrandProp> = () => {
     },
   ]
 
-  function confirm() {}
+  function confirm(){}
+
+  function onCreate(value: boolean) {
+    setVisible(value)
+  }
+
+  function onEdit(value: boolean) {
+    setVisible(value)
+  }
+  
 
   return (
-    <div>
-      <GlobalTable columns={columns} datasource={brands} hasPagination />
-    </div>
+    // <div>
+    //         <GlobalTable
+    //     visible={visible}
+    //     columns={columns}
+    //     datasource={brands}
+    //     hasPagination
+    //     hasCreate
+    //     onCreate={onCreate}
+    //     onEidt={onEdit}
+    //   />
+    // </div>
+    <div></div>
   )
 }
 export default Brand
