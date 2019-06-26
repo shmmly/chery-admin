@@ -1,6 +1,6 @@
 import React, { FC, useState, useMemo, useCallback } from 'react'
 import { Layout, Menu, Icon, Card, Breadcrumb } from 'antd'
-import routes, { mapObj } from '../router/router'
+import routes, { mapObj, redictMap } from '../router/router'
 import {
   Link,
   Switch,
@@ -8,7 +8,6 @@ import {
   RouteComponentProps,
   Route
 } from 'react-router-dom'
-import { useTransition, animated } from 'react-spring'
 import './index.less'
 import { generateRoute } from '../util'
 import IconFont from '../components/iconFont/IconFont'
@@ -23,20 +22,29 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
 
   const pathSnippets = location.pathname.split('/').filter(i => i)
 
-  const extraBreadcrumbItemsMemo = useMemo(
-    () =>
-      pathSnippets.map((_, index) => {
-        const url = `${pathSnippets.slice(0, index + 1).join('/')}`
-        console.log(location.pathname)
+  /**
+   * 这里组织对应的面包屑，通过2个对象 匹配到路由中对应的路由名称
+   */
+  const extraBreadcrumbItemsMemo = pathSnippets.map((_, index) => {
+    const url = '/' + `${pathSnippets.slice(0, index + 1).join('/')}`
+    const redicturl = redictMap[url]
 
-        return (
-          <Breadcrumb.Item key={url}>
-            <Link to={url}>{mapObj[location.pathname]}</Link>
-          </Breadcrumb.Item>
-        )
-      }),
-    [location.pathname]
-  )
+    return redicturl ? (
+      <Breadcrumb.Item key={url}>
+        <Link to={redicturl}>{mapObj[url]}</Link>
+      </Breadcrumb.Item>
+    ) : (
+      <Breadcrumb.Item key={url}>
+        <Link to={url}>{mapObj[url]}</Link>
+      </Breadcrumb.Item>
+    )
+  })
+
+  const breadcurbItems = [
+    <Breadcrumb.Item key="/dash">
+      {<Link to="/dash">首页</Link>}
+    </Breadcrumb.Item>
+  ].concat(extraBreadcrumbItemsMemo)
 
   function toggle() {
     setCollapsed(!collapsed)
@@ -81,7 +89,7 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
               >
                 {route.children.map(
                   child =>
-                    !child.show && (
+                    child.show !== false && (
                       <Item key={child.name}>
                         <Link to={child.path}>
                           <span>{child.name}</span>
@@ -111,16 +119,26 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
           />
         </Header>
         <Content className="content">
-          <Breadcrumb>{extraBreadcrumbItemsMemo}</Breadcrumb>
-          <Switch>
-            {flatRoute.map(route => (
-              <Route
-                key={route.name}
-                path={route.path}
-                component={route.component}
-              />
-            ))}
-          </Switch>
+          {location.pathname === '/dash' ? null : (
+            <div className="content-header">
+              <Breadcrumb style={{ marginBottom: 12 }}>
+                {breadcurbItems}
+              </Breadcrumb>
+              <span className="title">{mapObj[location.pathname]}</span>
+            </div>
+          )}
+
+          <div className="content-body">
+            <Switch>
+              {flatRoute.map(route => (
+                <Route
+                  key={route.name}
+                  path={route.path}
+                  component={route.component}
+                />
+              ))}
+            </Switch>
+          </div>
 
           {/* <Route
             render={({location}) => {

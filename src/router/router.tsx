@@ -28,6 +28,7 @@ import Wechat from '../pages/config/wechat/Wechat'
 import { RouteComponentProps } from 'react-router-dom'
 import Orderconfig from '../pages/config/order/Orderconfig'
 import Order from '../pages/shop/order/Order'
+import { EPERM } from 'constants';
 
 /*
  * @Author: 流年的樱花逝
@@ -377,6 +378,7 @@ function matchRoute() {
   let mapObj: MapRoute = {}
   routes.map(route => {
     if (route.children && route.children.length > 0) {
+      mapObj[route.path] = route.name
       route.children.map(child => {
         mapObj[child.path] = child.name
       })
@@ -389,5 +391,18 @@ function matchRoute() {
   return mapObj
 }
 
+function redirectMap(){
+  let redictMap:MapRoute = {}
+  routes.map(route=>{
+    if(route.redirect){
+      redictMap[route.path] = route.redirect
+    }
+  })
+  return redictMap
+}
+
+
+
 export const mapObj = matchRoute()
+export const redictMap = redirectMap()
 export default routes
