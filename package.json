@@ -27,6 +27,7 @@
     "react-scripts": "3.0.1",
     "react-spring": "^8.0.25",
     "react-use-gesture": "^5.1.2",
+    "three": "^0.105.2",
     "typescript": "3.5.2"
   },
   "scripts": {

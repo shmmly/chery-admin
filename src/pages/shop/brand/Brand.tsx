@@ -1,75 +1,42 @@
-import React, {FC, useState} from 'react'
-import GlobalTable from '../../../components/globalTable/GlobalTable'
-import {BrandInfo} from '../../../api'
-import {ColumnProps} from 'antd/lib/table'
-import {Tag, Button, Popconfirm} from 'antd'
-import {brands} from '../../../mock/index'
+/*
+ * @Author: 流年的樱花逝
+ * @Date: 2019-06-26 17:12:47
+ * @Last Modified by: 流年的樱花逝
+ * @Last Modified time: 2019-06-26 17:31:07
+ */
+
+import React, { FC, useRef } from 'react'
+import * as THREE from 'three'
+import { ECANCELED } from 'constants'
 interface BrandProp {}
 const Brand: FC<BrandProp> = () => {
-  const [visible, setVisible] = useState<boolean>(false)
-  const columns: ColumnProps<BrandInfo>[] = [
-    {
-      title: '品牌商id',
-      dataIndex: 'id',
-    },
-    {
-      title: '品牌商名称',
-      dataIndex: 'name',
-    },
-    {
-      title: '品牌商图片',
-      dataIndex: 'picture',
-    },
-    {
-      title: '介绍',
-      dataIndex: 'detail',
-    },
-    {
-      title: '底价',
-      dataIndex: 'price',
-    },
-    {
-      title: '操作',
-      render: row => (
-        <div style={{display:'flex',justifyContent:'space-around'}}>
-          <Button type="primary">编辑</Button>
-          <Popconfirm
-            placement="top"
-            title={'确认删除吗？'}
-            onConfirm={confirm}
-            okText="Yes"
-            cancelText="No">
-            <Button type="danger">删除</Button>
-          </Popconfirm>
-        </div>
-      ),
-    },
-  ]
+  const earchRef = useRef<HTMLDivElement>(null)
 
-  function confirm(){}
+  function init() {
+    // 透视相机
+    const carmera = new THREE.PerspectiveCamera(
+      60,
+      window.innerWidth / window.innerHeight,
+      1,
+      2000
+    )
 
-  function onCreate(value: boolean) {
-    setVisible(value)
+    const scene = new THREE.Scene()
+
+    // 加载皮肤
+    const loader = new THREE.TextureLoader()
+    loader.load('textures/earth.jpg', texture => {
+      const geometry = new THREE.SphereBufferGeometry(200, 20, 20)
+      const material = new THREE.MeshLambertMaterial({ map: texture })
+      const mesh = new THREE.Mesh(geometry, material)
+      scene.add(mesh)
+    })
+
+    const render = new THREE.WebGLRenderer()
+    render.setSize(window.innerWidth, window.innerHeight)
+    earchRef.current && earchRef.current.appendChild(render.domElement)
   }
 
-  function onEdit(value: boolean) {
-    setVisible(value)
-  }
-  
-
-  return (
-    // <div>
-    //         <GlobalTable
-    //     visible={visible}
-    //     columns={columns}
-    //     datasource={brands}
-    //     hasPagination
-    //     hasCreate
-    //     onCreate={onCreate}
-    //     onEidt={onEdit}
-    //   />
-    // </div>
-    <div></div>
-  )
+  return <div ref={earchRef} />
 }
 export default Brand

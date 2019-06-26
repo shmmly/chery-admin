@@ -47,9 +47,8 @@ interface GlobalTableProp {
   visible: boolean
   // 新增按钮
   onCreate?: () => void
-
   // modal 确认的回调
-  onOk?: (args:any) => void
+  onOk?: (args: any) => void
   // modal取消的回调
   onCancel?: () => void
   // 导出功能
@@ -71,7 +70,6 @@ const GlobalTable: FC<GlobalTableProp> = ({
   formConfig,
   visible = false,
   onCreate,
-
   onOk,
   onCancel,
   onExport,
@@ -110,8 +108,6 @@ const GlobalTable: FC<GlobalTableProp> = ({
     fetchFun && fetchFun(1, 10, value)
   }
 
-
- 
   return (
     <div className={styles.container}>
       <div className={styles.search}>

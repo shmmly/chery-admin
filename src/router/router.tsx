@@ -33,7 +33,7 @@ import Order from '../pages/shop/order/Order'
  * @Author: 流年的樱花逝
  * @Date: 2019-06-20 15:05:23
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-06-26 16:16:58
+ * @Last Modified time: 2019-06-26 17:04:08
  * @comment 这个文件包含了 整个系统的路由定义
  * @todo
  *  □ 直接使用router生成对应的文件夹，并能够watch router文件内容的变化 直接生成对应的文件夹
@@ -77,13 +77,13 @@ const routes: RouteConfig[] = [
     component: Dash
   },
   {
-    name: '用户管理',
+    name: '数据展示',
     path: '/user',
     redirect: '/user/member',
     icon: 'user',
     children: [
       {
-        name: '会员管理',
+        name: '表格展示',
         path: '/user/member',
         meta: {
           role: ['admin']
@@ -133,13 +133,13 @@ const routes: RouteConfig[] = [
     ]
   },
   {
-    name: '商场管理',
+    name: '图表展示',
     path: '/shop',
     redirect: '/shop/brand',
     iconFont: 'icon-system1',
     children: [
       {
-        name: '品牌制造商',
+        name: 'threejs3D',
         path: '/shop/brand',
         meta: {
           role: ['admin']
