@@ -1,6 +1,6 @@
 import React, { FC, useState, useMemo, useCallback } from 'react'
 import { Layout, Menu, Icon, Card, Breadcrumb } from 'antd'
-import routes, { mapObj, redictMap } from '../router/router'
+import routes, { mapObj, redictMap, pathName } from '../router/router'
 import {
   Link,
   Switch,
@@ -19,6 +19,8 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
   history: { location }
 }) => {
   const [collapsed, setCollapsed] = useState<boolean>(false)
+
+  const [openKey, setOpenkey] = useState<string[]>(['首页'])
 
   const pathSnippets = location.pathname.split('/').filter(i => i)
 
@@ -51,6 +53,20 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
   }
   const flatRoute = generateRoute(routes)
 
+  /* 菜单栏只能打开一个父节点，避免菜单过长 ，页面出现滚动条 */
+  function handleOnOpenChange(openkeys: string[]) {
+    const lastOpenkey = openkeys.find(key => openKey.indexOf(key) === -1)
+    if (lastOpenkey) {
+      if (pathName.indexOf(lastOpenkey) === -1) {
+        setOpenkey(openkeys)
+      } else {
+        setOpenkey([lastOpenkey])
+      }
+    } else {
+      setOpenkey([])
+    }
+  }
+
   return (
     <Layout className={'layout'}>
       <Sider
@@ -61,7 +77,13 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
         className="sider"
       >
         <div>title</div>
-        <Menu mode="inline" className={'menuList'} theme="dark">
+        <Menu
+          mode="inline"
+          className={'menuList'}
+          theme="dark"
+          openKeys={openKey}
+          onOpenChange={handleOnOpenChange}
+        >
           {routes.map(route =>
             route.children && route.children.length > 0 ? (
               <SubMenu
@@ -139,24 +161,6 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
               ))}
             </Switch>
           </div>
-
-          {/* <Route
-            render={({location}) => {
-              return transitions.map(({item, props, key}) => (
-                <animated.div key={key} style={props}>
-                  <Switch location={item}>
-                    {flatRoute.map(route => (
-                      <Route
-                        key={route.name}
-                        path={route.path}
-                        component={route.component}
-                      />
-                    ))}
-                  </Switch>
-                </animated.div>
-              ))
-            }}
-          /> */}
         </Content>
       </Layout>
     </Layout>
