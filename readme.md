@@ -11,3 +11,5 @@ husky: 用来拦截 git 命令 执行一些 npm 的测试等以及错误提示
 □ 路由权限
 
 □ graphql 客户端接入
+
+□ 接入第三方登录 微信  qq  github 
