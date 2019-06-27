@@ -1,5 +1,5 @@
-import React, { FC, useState, } from 'react'
-import { Layout, Menu, Icon, Breadcrumb } from 'antd'
+import React, { FC, useState } from 'react'
+import { Layout, Menu, Icon, Breadcrumb, Avatar, Popover, Divider } from 'antd'
 import routes, { mapObj, redictMap, pathName } from '../router/router'
 import {
   Link,
@@ -133,12 +133,40 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
         </Menu>
       </Sider>
       <Layout>
-        <Header style={{ background: '#fff', padding: 0 }}>
+        <Header
+          style={{ background: '#fff', padding: 0, position: 'relative' }}
+        >
           <Icon
             className={'tigger'}
             type={collapsed ? 'menu-unfold' : 'menu-fold'}
             onClick={toggle}
           />
+          <Popover
+            placement="bottomRight"
+            title={''}
+            content={
+              <div className="profile">
+                <div className={'profile-item'}>
+                  <Icon type="user" />
+                  <Link to="/config/profile">个人中心</Link>
+                </div>
+                <div className={'profile-item'}>
+                <Icon type="setting" />
+                  <Link to="/profile">个人中心</Link>
+                </div>
+                <div className={'profile-item'}>
+                <Icon type="logout" />
+                  <Link to="/profile">退出</Link>
+                </div>
+              </div>
+            }
+            trigger="click"
+          >
+            <Avatar
+              className="avatar"
+              src="http://ptqg3vb51.bkt.clouddn.com/hdImg_33d471f141b9449ebf29c9d59a1e62ae15616183339.jpg"
+            />
+          </Popover>
         </Header>
         <Content className="content">
           {location.pathname === '/dash' ? null : (

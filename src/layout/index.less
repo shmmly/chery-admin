@@ -1,4 +1,4 @@
-@import '../styles//variable.less';
+@import '../styles/variable.less';
 
 .layout {
   height: 100%;
@@ -17,10 +17,31 @@
     color: #1890ff;
   }
 }
+
+.avatar {
+  top: 16px;
+  position: absolute;
+  right: 24px;
+  cursor: pointer;
+}
+
+.profile {
+  &-item {
+    padding-top: 5px;
+    a {
+      padding-left: 5px;
+      color: @text-color;
+      &:hover {
+        color: @blue;
+      }
+    }
+  }
+}
+
 .menuList {
   height: 100%;
   padding: 16px 0;
-   width: 100%;
+  width: 100%;
 }
 .sider {
   position: relative;
@@ -28,32 +49,25 @@
   min-height: 100vh;
   box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
 }
-.content{
-
-  &-header{
-    padding: 16px 32px ;
+.content {
+  &-header {
+    padding: 16px 32px;
     background: #fff;
     border-bottom: 1px solid #e8e8e8;
     border-top: 1px solid #e8e8e8;
-    .title{
+    .title {
       padding: 12px 0;
-      color: rgba(0,0,0,.85);
+      color: rgba(0, 0, 0, 0.85);
       font-weight: 600;
       font-size: 20px;
       line-height: 1.4;
-
     }
   }
-  &-body{
+  &-body {
     padding: 24px;
     overflow: hidden;
-
-   
   }
 }
-
-
-
 
 :global {
   .top-nav-menu li.ant-menu-item {

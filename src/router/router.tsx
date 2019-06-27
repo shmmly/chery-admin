@@ -28,12 +28,13 @@ import Wechat from '../pages/config/wechat/Wechat'
 import { RouteComponentProps } from 'react-router-dom'
 import Orderconfig from '../pages/config/order/Orderconfig'
 import Order from '../pages/shop/order/Order'
+import Profile from '../pages/profile/Profile';
 
 /*
  * @Author: 流年的樱花逝
  * @Date: 2019-06-20 15:05:23
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-06-26 17:04:08
+ * @Last Modified by: 流年的樱花逝
+ * @Last Modified time: 2019-06-27 16:58:45
  * @comment 这个文件包含了 整个系统的路由定义
  * @todo
  *  □ 直接使用router生成对应的文件夹，并能够watch router文件内容的变化 直接生成对应的文件夹
@@ -91,7 +92,7 @@ const routes: RouteConfig[] = [
         component: Member
       },
       {
-        name: '收货地址',
+        name: '图片瀑布流',
         path: '/user/address',
         meta: {
           role: ['admin']
@@ -181,13 +182,13 @@ const routes: RouteConfig[] = [
     ]
   },
   {
-    name: '商品管理',
+    name: '组件展示',
     path: '/good',
     redirect: '/good/list',
     iconFont: 'icon-Commoditysetup',
     children: [
       {
-        name: '商品列表',
+        name: '可拖拽组件',
         path: '/good/list',
         meta: {
           role: ['admin']
@@ -333,6 +334,14 @@ const routes: RouteConfig[] = [
           role: ['admin']
         },
         component: Shop
+      },
+      {
+        name: '个人中心',
+        path: '/config/profile',
+        meta: {
+          role: ['admin']
+        },
+        component: Profile
       },
       {
         name: '运费配置',
