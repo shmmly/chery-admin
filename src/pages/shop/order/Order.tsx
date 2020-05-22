@@ -60,7 +60,7 @@ const Order: FC<OrderProp> = () => {
 
   return (
     <div>
-      <GlobalTable columns={columns} datasource={orders} hasPagination />
+      {/* <GlobalTable columns={columns} datasource={orders} hasPagination /> */}
     </div>
   )
 }

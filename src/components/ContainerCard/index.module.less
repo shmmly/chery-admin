@@ -1,0 +1,18 @@
+// 这里出现样式无法覆盖background的问题
+// 应该是最终生成的style表中，backgrond还是排在后面 所有一直是白色导致 自定义的颜色失效
+// 所以这里删除background的定义
+@import '../../styles/variable.less';
+.container {
+  padding: 12px;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid @border-color;
+  box-shadow: @box-shadow;
+  // background: white;
+  &:hover {
+    transform: scale(1.004);
+  }
+}

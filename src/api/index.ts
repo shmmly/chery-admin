@@ -1,3 +1,6 @@
+import { ValidationRule } from 'antd/lib/form'
+import { ReactNode } from 'react'
+
 /*
  * @Description: 所有类型的定义文件
  * @Author: 流年的樱花逝
@@ -62,4 +65,18 @@ export interface OrderInfo extends BaseInfo {
   payTime: string
   // 物流单号
   logisticsNum: string
+}
+
+export interface FormConfig {
+  // 对应标题
+  label: string
+  // 对应规则
+  rules?: ValidationRule[]
+  // 对应的组件
+  component: ReactNode
+  // 组件的初始化数据
+  initValue?: any
+  // 对应的字段名称
+  field:string
+
 }

@@ -12,17 +12,22 @@
  * @issue 怎么创建带有泛型的函数组件
  *
  */
-import React, {FC, Component, useState, useEffect, ReactNode} from 'react'
-import {Table, Input, Button} from 'antd'
+import React, { FC, useState, useEffect, ReactNode } from 'react'
+import { Table, Input, Button } from 'antd'
 import styles from './index.module.less'
 import {
   ColumnProps,
   PaginationConfig,
   TableCurrentDataSource,
-  SorterResult,
+  SorterResult
 } from 'antd/lib/table'
+import { FormConfig } from '../../api'
+import GlobalModal from './GlobalModal'
 interface GlobalTableProp {
   columns: ColumnProps<any>[]
+  // 新增或者修改的表单配置
+  formConfig?: FormConfig[]
+  // 表格展示的数据内容
   datasource: any
   // 是否带有分页
   hasPagination?: boolean
@@ -38,6 +43,18 @@ interface GlobalTableProp {
   createText?: ReactNode | string
   // 导出按钮对应的文字
   exportText?: ReactNode | string
+  // modalform的显示控制
+  visible: boolean
+  // 新增按钮
+  onCreate?: () => void
+  // modal 确认的回调
+  onOk?: (args: any) => void
+  // modal取消的回调
+  onCancel?: () => void
+  // 导出功能
+  onExport?: () => void
+  // modal的标题
+  title?: string
 }
 
 const GlobalTable: FC<GlobalTableProp> = ({
@@ -50,6 +67,13 @@ const GlobalTable: FC<GlobalTableProp> = ({
   hasExport = true,
   createText = '新增',
   exportText = '导出',
+  formConfig,
+  visible = false,
+  onCreate,
+  onOk,
+  onCancel,
+  onExport,
+  title
 }) => {
   const [page, setPage] = useState<number>(1)
   const [pageSize, setPageSize] = useState<number>(10)
@@ -65,7 +89,7 @@ const GlobalTable: FC<GlobalTableProp> = ({
         current: datasource.current || page,
         pageSize: datasource.pageSize || pageSize,
         showQuickJumper: true,
-        showTotal: total => `共${total}条`,
+        showTotal: total => `共${total}条`
       } as PaginationConfig)
     : false
   // 分页等操作
@@ -83,12 +107,21 @@ const GlobalTable: FC<GlobalTableProp> = ({
   function handleSearch(value: string) {
     fetchFun && fetchFun(1, 10, value)
   }
+
   return (
     <div className={styles.container}>
       <div className={styles.search}>
         <Input.Search onSearch={handleSearch} className={styles.input} />
-        {hasCreate && <Button type="primary"> {createText}</Button>}
-        {hasExport && <Button type="primary"> {exportText}</Button>}
+        {hasCreate && (
+          <Button type="primary" onClick={onCreate}>
+            {createText}
+          </Button>
+        )}
+        {hasExport && (
+          <Button type="primary" onClick={onExport}>
+            {exportText}
+          </Button>
+        )}
       </div>
       <Table
         rowKey={record => record.id}
@@ -98,6 +131,15 @@ const GlobalTable: FC<GlobalTableProp> = ({
         pagination={pagination}
         bordered={brodered}
       />
+      {formConfig && onOk && onCancel && title && (
+        <GlobalModal
+          title={title}
+          onOk={onOk}
+          onCancel={onCancel}
+          visible={visible}
+          formConfig={formConfig}
+        />
+      )}
     </div>
   )
 }

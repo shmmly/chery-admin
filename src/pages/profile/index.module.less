@@ -1,0 +1,52 @@
+@import '../../styles/variable.less';
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: @text-color;
+  .avatar {
+    width: 128px;
+    height: 128px;
+    margin: 0 auto;
+    border-radius: 50%;
+    border: 1px solid @border-color;
+    &:hover {
+      animation: avatar-spin infinite 10s linear;
+      pointer-events: none;
+    }
+  }
+  .name {
+    font-size: 32px;
+    padding: 12px 0;
+    font-weight: bold;
+  }
+  .motto {
+    font-size: 16px;
+    font-weight: 200;
+  }
+}
+.dec {
+  width: 100%;
+  padding: 0 32px;
+  align-items: flex-start;
+  .decItem {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+  
+    // flex-wrap: wrap;
+    .text {
+      padding-left: 10px;
+    }
+  }
+}
+
+@keyframes avatar-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

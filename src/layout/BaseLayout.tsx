@@ -1,35 +1,71 @@
-import React, {FC, useState} from 'react'
-import {Layout, Menu, Icon, Card} from 'antd'
-import routes from '../router/router'
+import React, { FC, useState } from 'react'
+import { Layout, Menu, Icon, Breadcrumb, Avatar, Popover, Divider } from 'antd'
+import routes, { mapObj, redictMap, pathName } from '../router/router'
 import {
   Link,
   Switch,
   withRouter,
   RouteComponentProps,
-  Route,
+  Route
 } from 'react-router-dom'
-import {useTransition, animated} from 'react-spring'
 import './index.less'
-import {generateRoute} from '../util'
+import { generateRoute } from '../util'
 import IconFont from '../components/iconFont/IconFont'
-const {Header, Content, Sider} = Layout
-const {SubMenu, Item} = Menu
+const { Header, Content, Sider } = Layout
+const { SubMenu, Item } = Menu
 interface BaseLayoutProp {}
+
 const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
-  history: {location},
+  history: { location }
 }) => {
   const [collapsed, setCollapsed] = useState<boolean>(false)
 
-  // const transitions = useTransition(location, location => location.pathname, {
-  //   from: {opacity: 0, transform: 'translate3d(0%,0,0)'},
-  //   enter: {opacity: 1, transform: 'translate3d(0,0,0)'},
-  //   leave: {opacity: 0, transform: 'translate3d(-50%,0,0)'},
-  // })
+  const [openKey, setOpenkey] = useState<string[]>(['首页'])
+
+  const pathSnippets = location.pathname.split('/').filter(i => i)
+
+  /**
+   * 这里组织对应的面包屑，通过2个对象 匹配到路由中对应的路由名称
+   */
+  const extraBreadcrumbItemsMemo = pathSnippets.map((_, index) => {
+    const url = '/' + `${pathSnippets.slice(0, index + 1).join('/')}`
+    const redicturl = redictMap[url]
+
+    return redicturl ? (
+      <Breadcrumb.Item key={url}>
+        <Link to={redicturl}>{mapObj[url]}</Link>
+      </Breadcrumb.Item>
+    ) : (
+      <Breadcrumb.Item key={url}>
+        <Link to={url}>{mapObj[url]}</Link>
+      </Breadcrumb.Item>
+    )
+  })
+
+  const breadcurbItems = [
+    <Breadcrumb.Item key="/dash">
+      {<Link to="/dash">首页</Link>}
+    </Breadcrumb.Item>
+  ].concat(extraBreadcrumbItemsMemo)
 
   function toggle() {
     setCollapsed(!collapsed)
   }
   const flatRoute = generateRoute(routes)
+
+  /* 菜单栏只能打开一个父节点，避免菜单过长 ，页面出现滚动条 */
+  function handleOnOpenChange(openkeys: string[]) {
+    const lastOpenkey = openkeys.find(key => openKey.indexOf(key) === -1)
+    if (lastOpenkey) {
+      if (pathName.indexOf(lastOpenkey) === -1) {
+        setOpenkey(openkeys)
+      } else {
+        setOpenkey([lastOpenkey])
+      }
+    } else {
+      setOpenkey([])
+    }
+  }
 
   return (
     <Layout className={'layout'}>
@@ -38,9 +74,16 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
         collapsed={collapsed}
         trigger={null}
         width={256}
-        className="sider">
+        className="sider"
+      >
         <div>title</div>
-        <Menu mode="inline" className={'menuList'} theme="dark">
+        <Menu
+          mode="inline"
+          className={'menuList'}
+          theme="dark"
+          openKeys={openKey}
+          onOpenChange={handleOnOpenChange}
+        >
           {routes.map(route =>
             route.children && route.children.length > 0 ? (
               <SubMenu
@@ -49,7 +92,8 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
                   route.redirect ? (
                     <Link
                       to={route.redirect}
-                      style={{color: 'rgba(255,255,255,.65)'}}>
+                      style={{ color: 'rgba(255,255,255,.65)' }}
+                    >
                       <span>
                         {route.icon && <Icon type={route.icon} />}
                         {route.iconFont && <IconFont type={route.iconFont} />}
@@ -63,10 +107,11 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
                       <span>{route.name}</span>
                     </span>
                   )
-                }>
+                }
+              >
                 {route.children.map(
                   child =>
-                    !child.show && (
+                    child.show !== false && (
                       <Item key={child.name}>
                         <Link to={child.path}>
                           <span>{child.name}</span>
@@ -88,14 +133,52 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
         </Menu>
       </Sider>
       <Layout>
-        <Header style={{background: '#fff', padding: 0}}>
+        <Header
+          style={{ background: '#fff', padding: 0, position: 'relative' }}
+        >
           <Icon
             className={'tigger'}
             type={collapsed ? 'menu-unfold' : 'menu-fold'}
             onClick={toggle}
           />
+          <Popover
+            placement="bottomRight"
+            title={''}
+            content={
+              <div className="profile">
+                <div className={'profile-item'}>
+                  <Icon type="user" />
+                  <Link to="/config/profile">个人中心</Link>
+                </div>
+                <div className={'profile-item'}>
+                <Icon type="setting" />
+                  <Link to="/profile">个人中心</Link>
+                </div>
+                <div className={'profile-item'}>
+                <Icon type="logout" />
+                  <Link to="/profile">退出</Link>
+                </div>
+              </div>
+            }
+            trigger="click"
+          >
+            <Avatar
+              className="avatar"
+              src="http://ptqg3vb51.bkt.clouddn.com/hdImg_33d471f141b9449ebf29c9d59a1e62ae15616183339.jpg"
+            />
+          </Popover>
         </Header>
         <Content className="content">
+          {location.pathname === '/dash' ? null : (
+            <div className="content-header">
+              <Breadcrumb style={{ marginBottom: 12 }}>
+                {breadcurbItems}
+              </Breadcrumb>
+              <span className="title">{mapObj[location.pathname]}</span>
+            </div>
+          )}
+
+          <div className="content-body">
             <Switch>
               {flatRoute.map(route => (
                 <Route
@@ -105,25 +188,7 @@ const BaseLayout: FC<BaseLayoutProp & RouteComponentProps> = ({
                 />
               ))}
             </Switch>
-
-
-          {/* <Route
-            render={({location}) => {
-              return transitions.map(({item, props, key}) => (
-                <animated.div key={key} style={props}>
-                  <Switch location={item}>
-                    {flatRoute.map(route => (
-                      <Route
-                        key={route.name}
-                        path={route.path}
-                        component={route.component}
-                      />
-                    ))}
-                  </Switch>
-                </animated.div>
-              ))
-            }}
-          /> */}
+          </div>
         </Content>
       </Layout>
     </Layout>

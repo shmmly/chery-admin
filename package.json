@@ -5,11 +5,13 @@
   "dependencies": {
     "@types/jest": "24.0.15",
     "@types/node": "12.0.8",
-    "@types/react": "16.8.21",
     "@types/react-dom": "16.8.4",
     "antd": "^3.19.6",
     "apollo-boost": "^0.4.3",
+    "classnames": "^2.2.6",
     "customize-cra": "^0.2.13",
+    "exceljs": "^1.13.0",
+    "file-saver": "^2.0.2",
     "graphql": "^14.3.1",
     "graphql-tools": "^4.0.5",
     "lodash-es": "^4.17.11",
@@ -25,6 +27,7 @@
     "react-scripts": "3.0.1",
     "react-spring": "^8.0.25",
     "react-use-gesture": "^5.1.2",
+    "three": "^0.105.2",
     "typescript": "3.5.2"
   },
   "scripts": {
@@ -49,6 +52,10 @@
     ]
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.8",
+    "@types/exceljs": "^0.5.3",
+    "@types/file-saver": "^2.0.1",
+    "@types/react": "^16.8.22",
     "@types/react-router-dom": "^4.3.4",
     "babel-plugin-import": "^1.12.0",
     "cz-conventional-changelog": "^2.1.0",
